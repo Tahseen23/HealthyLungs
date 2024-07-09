@@ -1,1 +1,4 @@
 langchain_huggingface==0.0.3
+langchain==0.2.7
+langchain_community==0.2.7
+chromadb==0.5.3
