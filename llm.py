@@ -1,19 +1,13 @@
 from langchain_huggingface import HuggingFaceEndpoint
 from langchain.chains import RetrievalQA
 from langchain.embeddings import HuggingFaceEmbeddings
-from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.chains.combine_documents.stuff import StuffDocumentsChain
 from langchain.schema.runnable import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
-from langchain.prompts import PromptTemplate, ChatPromptTemplate
-from langchain_community.document_loaders import PyPDFLoader
+from langchain.prompts import  ChatPromptTemplate
 from langchain.chains import HypotheticalDocumentEmbedder
 
-import chromadb
-import uuid
 from chromadb import Client
 from langchain.vectorstores import Chroma
-from chromadb.utils.batch_utils import create_batches
 from dotenv import load_dotenv
 load_dotenv()
 import os
