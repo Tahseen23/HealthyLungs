@@ -1,9 +1,11 @@
 from ultralytics import YOLO
 import cv2
+from PIL import Image
 model = YOLO(r"C:\Users\hp\Downloads\best.pt")
 
 def processPredict(image):
-    img=cv2.resize(image,(640,640))
+    img=Image.open(image)
+    img=img.resize((640,640))
     pred=model.predict(img)
     names=model.names
     text=""
