@@ -1,13 +1,15 @@
 from reportlab.pdfgen.canvas import Canvas
 from reportlab.lib.colors import lightblue, black,green , lightgreen,white
 from PIL import Image
+from reportlab.lib.utils import ImageReader
 from reportlab.lib.units import cm
 from reportlab.platypus import Paragraph
 import datetime
 from pdf2docx import Converter
-from docx2pdf import convert
-import PyPDF2 
+from docx2pdf import convert 
 import uuid
+import io
+
 
 def addText(pdf,x,y,color,fontSize,text):
     pdf.setFillColor(color)
@@ -19,7 +21,9 @@ def addText2(pdf,x,y,color,fontSize,text,text2):
     pdf.drawString(x, y, f"{text}:{text2}")
 def generatePdf(name,age,gender,image,symptoms,time,llmOutput):
     uniqueId=(str(uuid.uuid4()))
-    pdf=Canvas(uniqueId+".pdf")
+    # pdf=Canvas(uniqueId+".pdf")
+    pdf=Canvas("hello.pdf")
+    buffer = io.BytesIO()
     addText(pdf,170,815,green,30,"Evergreen Hospital")
     addText(pdf,20,780,green,15,"PhoneNo-xxxxxxxxxxx")
     addText(pdf,430,780,green,15,"Address-Mumbai,India")
@@ -28,14 +32,17 @@ def generatePdf(name,age,gender,image,symptoms,time,llmOutput):
     addText2(pdf,190,730,black,15,"Age",str(age))
     addText2(pdf,330,730,black,15,"Sex",gender)
     addText2(pdf,440,730,black,15,"Date",time)
-    pdf.drawImage(image,215,550,width=5*cm,height=5*cm)
+    image_obj = ImageReader(io.BytesIO(image))
+    pdf.drawImage(image_obj,215,550,width=5*cm,height=5*cm)
     addText2(pdf,20,500,black,15,"Symptoms",symptoms)
     addText(pdf,20,450,black,15,"Roadmap")
     addText2(pdf,90,450,black,15,"Date",str(datetime.date.today()))
     p1=Paragraph(llmOutput)
     p1.wrapOn(pdf,500,100)
     p1.drawOn(pdf,20,400)
-    return pdf
+    pdf.save()
+    buffer.seek(0)
+    
 
 
 
