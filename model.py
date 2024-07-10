@@ -22,7 +22,7 @@ def processPredict(image):
         text="initial stage of lung cancer"
         return text,dp['benign']
     else:
-        text="normal nothing to worry"
+        text="normal condition nothing to worry"
         return text,dp['normal']
 
 
