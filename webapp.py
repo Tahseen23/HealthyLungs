@@ -9,6 +9,10 @@ with st.sidebar:
     image=st.file_uploader("Upload Xray of lungs", type=["jpg","jpeg","png"],accept_multiple_files=False)
     symptoms=st.text_input("Enter patient symptoms")
     time=st.text_input("For how days/weeks/month")
-    st.button("Generate PDF")
+    date=st.text_input("Enter the date")
+    button=st.button("Generate PDF")
+
+if button:
+    pass
 
 
