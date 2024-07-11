@@ -1,7 +1,7 @@
 import streamlit as st
 from pdf import generatePdf
-from llm import generateRoadmap
-from model import processPredict
+# from llm import generateRoadmap
+from model import processPredict,drawRectangle
 import base64
 st.title("Healthy Lungs-Evergreen")
 
@@ -26,12 +26,13 @@ with st.sidebar:
 
 
 if button:
-    text,_=processPredict(image)
-    print(text)
-    image.seek(0)
-    llmOutput=generateRoadmap(text,symptoms,time)
+    text,rectangle=processPredict(image)
+    img=drawRectangle(rectangle,image)
+    # print(text)
+    # image.seek(0)
+    # llmOutput=generateRoadmap(text,symptoms,time)
     # st.write(llmOutput)
-    generatePdf(name,age,gender,image.read(),symptoms,time,llmOutput)
+    generatePdf(name,age,gender,img.read(),symptoms,time,"llmOutput")
     show_pdf('hello.pdf')
     print("Done")
     

@@ -1,6 +1,6 @@
 from ultralytics import YOLO
-import cv2
-from PIL import Image
+import io
+from PIL import Image,ImageDraw
 model = YOLO(r"C:\Users\hp\Downloads\best.pt")
 
 def processPredict(image):
@@ -26,6 +26,19 @@ def processPredict(image):
     else:
         text="normal condition nothing to worry"
         return text,dp['normal']
+
+def drawRectangle(rectangle,image):
+    img=Image.open(image)
+    draw=ImageDraw.Draw(img)
+    for i in rectangle:
+        draw.rectangle(((i[0],i[1]),(i[2],i[3])),outline="red")
+    img_byte_arr = io.BytesIO()
+    img.save(img_byte_arr, format='PNG')
+    img_byte_arr.seek(0)
+    return img_byte_arr
+
+
+
 
 
 

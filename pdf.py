@@ -39,7 +39,7 @@ def generatePdf(name,age,gender,image,symptoms,time,llmOutput):
     addText2(pdf,90,450,black,15,"Date",str(datetime.date.today()))
     p1=Paragraph(llmOutput)
     p1.wrapOn(pdf,500,100)
-    p1.drawOn(pdf,20,400)
+    p1.drawOn(pdf,20,290)
     pdf.save()
     buffer.seek(0)
     
