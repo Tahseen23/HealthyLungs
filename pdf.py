@@ -1,6 +1,7 @@
 from reportlab.pdfgen.canvas import Canvas
 from reportlab.lib.colors import lightblue, black,green , lightgreen,white
 from PIL import Image
+from database import uploadData,getPdf
 from reportlab.lib.utils import ImageReader
 from reportlab.lib.units import cm
 from reportlab.platypus import Paragraph
@@ -19,11 +20,10 @@ def addText2(pdf,x,y,color,fontSize,text,text2):
     pdf.setFillColor(color)
     pdf.setFont("Times-Roman", fontSize)
     pdf.drawString(x, y, f"{text}:{text2}")
-def generatePdf(name,age,gender,image,symptoms,time,llmOutput):
-    uniqueId=(str(uuid.uuid4()))
-    # pdf=Canvas(uniqueId+".pdf")
-    pdf=Canvas("hello.pdf")
+def generatePdf(patientId,name,age,gender,image,symptoms,time,llmOutput):
     buffer = io.BytesIO()
+    pdf=Canvas(buffer)
+    # pdf=Canvas("hello.pdf")
     addText(pdf,170,815,green,30,"Evergreen Hospital")
     addText(pdf,20,780,green,15,"PhoneNo-xxxxxxxxxxx")
     addText(pdf,430,780,green,15,"Address-Mumbai,India")
@@ -42,6 +42,11 @@ def generatePdf(name,age,gender,image,symptoms,time,llmOutput):
     p1.drawOn(pdf,20,290)
     pdf.save()
     buffer.seek(0)
+    uploadData(patientId,name,age,gender,buffer,time)
+    pdfFile=getPdf(f"evergreen{patientId}.pdf")
+    return pdfFile
+    # buffer.seek(0)
+
     
 
 
