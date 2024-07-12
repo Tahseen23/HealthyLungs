@@ -1,6 +1,7 @@
 import streamlit as st
 from pdf import generatePdf
-# from llm import generateRoadmap
+from llm import generateRoadmap
+from database import getPdf
 from model import processPredict,drawRectangle
 import base64
 st.title("Healthy Lungs-Evergreen")
@@ -12,6 +13,8 @@ def show_pdf(file_stream):
     st.markdown(pdf_display, unsafe_allow_html=True)
 
 
+
+
 name=st.sidebar.text_input("Enter patient name")
 with st.sidebar:
     patientId=st.text_input("Enter Patient Id")
@@ -21,16 +24,25 @@ with st.sidebar:
     symptoms=st.text_input("Enter patient symptoms")
     time=st.text_input("For how many days/weeks/month")
     date=st.text_input("Enter the date")
-    button=st.button("Generate PDF")
+    generate=st.button("Generate PDF")
+    reterive=st.button("Reterive")
+
+if reterive:
+    if patientId:
+        pdf=getPdf(f"evergreen{patientId}.pdf")
+        show_pdf(pdf)
+    else:
+        st.warning("Please enter Patient Id ")
 
 
 
 
-if button:
+
+if generate:
     text,rectangle=processPredict(image)
     img=drawRectangle(rectangle,image)
-    # llmOutput=generateRoadmap(text,symptoms,time)
-    pdfFile=generatePdf(patientId,name,age,gender,img.read(),symptoms,date,"llmOutput")
+    llmOutput=generateRoadmap(text,symptoms,time)
+    pdfFile=generatePdf(patientId,name,age,gender,img.read(),symptoms,date,llmOutput)
     show_pdf(pdfFile)
     print("Done")
     

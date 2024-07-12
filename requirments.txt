@@ -12,3 +12,4 @@ PyPDF2==3.0.1
 docx2pdf==0.1.8
 pypdf2
 fire_admin
+ragstack-ai datasets
